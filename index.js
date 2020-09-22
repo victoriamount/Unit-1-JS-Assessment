@@ -30,7 +30,7 @@ function getName(character) {
  */
 function getFilmCount(character) {
   // TODO: Add your code inside the functions (others below).
-
+  return character.films.length;
 }
 
 /**
@@ -42,7 +42,12 @@ function getFilmCount(character) {
  * If length is 0. Return 'none'
 */
 function getSecondStarshipName(character) {
-  // TODO: Add your code here.
+  if (character.starships[1] == undefined) {
+    return `none`;
+  }
+  else {
+    return character.starships[1].name;
+  }
 }
 
 /**
@@ -55,7 +60,7 @@ function getSecondStarshipName(character) {
  *    Result: `Luke Skywalker, 172cm, 77kg. Featured in 5 films.`
  */
 function getSummary(character) {
-  // TODO: Add your code here.
+  return `${character.name}, ${character.height}cm, ${character.mass}kg. Featured in ${character.films.length} films.`;
 }
 
 /**
@@ -66,9 +71,26 @@ function getSummary(character) {
  * Sum the total cost in credits for all vehicles defined on the input character.
  * Sample data expected output: 8000
 */
+
+
 function getVehiclesCostInCreditsSumTotal(character) {
-  // TODO: Add your code here.
+  let sumCredits = 0;
+  let intCost = 0;
+  for (let i = 0; i < character.vehicles.length; i++){
+    if (character.vehicles[i].cost_in_credits == null){
+      intCost = 0;
+    }
+    else {
+      intCost = parseInt(character.vehicles[i].cost_in_credits, 10);
+    }
+    sumCredits += intCost;
+
+  }
+  return sumCredits;
 }
+
+
+
 
 /**
  * ### Challenge `getStarshipPassengerAndCrewSumTotal`
@@ -80,8 +102,15 @@ function getVehiclesCostInCreditsSumTotal(character) {
  *
  * Sample data expected output: 27
 */
+
 function getStarshipPassengerAndCrewSumTotal(character) {
-  // TODO: Add your code here.
+  let passengerSum = 0;
+  let crewSum = 0;
+  for (let i = 0; i < character.starships.length; i++) {
+    passengerSum += character.starships[i].passengers;
+    crewSum += character.starships[i].crew;
+  }
+  return passengerSum+crewSum;
 }
 
 /**
@@ -98,7 +127,12 @@ function getStarshipPassengerAndCrewSumTotal(character) {
  * Given film #7, expected error: `There are only 3 Star Wars movies. Flan fiction excluded.`
 */
 function getNthFilm(character, filmNumber) {
-  // TODO: Add your code here.
+  if (1<= filmNumber && filmNumber<=3){
+    return character.films[filmNumber-1];
+  }
+  else {
+    return `There are only 3 Star Wars movies. Grease excluded.`
+  }
 }
 
 /**
@@ -112,8 +146,31 @@ function getNthFilm(character, filmNumber) {
  * Sample data expected output: 80124
 */
 function getCargoCapacityTotal(character) {
-  // TODO: Add your code here.
+  let vehicleCargoSum = 0;
+  let starshipCargoSum = 0;
+  for (let i=0; i<character.vehicles.length; i++){
+    if (character.vehicles[i].cargo_capacity == null){
+      vehicleCargoSum += 0;
+    }
+    else{
+      let intCargo = parseInt(character.vehicles[i].cargo_capacity, 10);
+      // console.log(intCargo);
+      vehicleCargoSum += intCargo;
+    }
+  }
+  for (let j=0; j<character.starships.length; j++){
+    if (character.starships[j].cargo_capacity == null){
+      starshipCargoSum += 0;
+    }
+    else {
+      let intCargo = parseInt(character.starships[j].cargo_capacity, 10);
+      // console.log(intCargo);
+      starshipCargoSum += intCargo;
+    }
+  }
+  return vehicleCargoSum+starshipCargoSum;
 }
+
 
 /**
  * ### Challenge `getFastestStarshipName`
@@ -127,8 +184,22 @@ function getCargoCapacityTotal(character) {
  * Sample data expected output: `X-wing`
 */
 function getFastestStarshipName(character) {
-  // TODO: Add your code here.
+  if (character.starships.length == 0) {
+    return `none`;
+  }
+  else {
+    let fastestSpeed = 0;
+    let fastestName = "";
+    for (let i=0; i<character.starships.length; i++){
+      if (parseInt(character.starships[i].max_atmosphering_speed, 10) >= fastestSpeed) {
+        fastestSpeed = character.starships[i].max_atmosphering_speed;
+        fastestName = character.starships[i].name;
+      }
+    }
+    return `${fastestName}`;
+  }
 }
+
 
 /**
  * ### Challenge `getLargestCargoStarshipModelName`
@@ -142,7 +213,20 @@ function getFastestStarshipName(character) {
  * Sample data expected output: `Lambda-class T-4a shuttle`
 */
 function getLargestCargoStarshipModelName(character) {
-  // TODO: Add your code here.
+  if (character.starships.length == 0) {
+    return `none`;
+  }
+  else {
+    let largestCapacity = 0;
+    let largestCapacityModel = "";
+        for (let i=0; i<character.starships.length; i++){
+      if (parseInt(character.starships[i].cargo_capacity, 10) >= largestCapacity) {
+        largestCapacity = parseInt(character.starships[i].cargo_capacity, 10);
+        largestCapacityModel = character.starships[i].model;
+      }
+    }
+    return `${largestCapacityModel}`;
+  }
 }
 
 /**
@@ -156,7 +240,26 @@ function getLargestCargoStarshipModelName(character) {
  *
 */
 function getSlowestVehicleOrStarshipName(character) {
-  // TODO: Add your code here.
+  if (character.starships.length == 0 && character.vehicles.length ==0) {
+    return `none`;
+  }
+  else {
+    let slowestSpeed = 1000000000000000000000000; // :) 
+    let slowestName = "";
+    for (let i=0; i<character.starships.length; i++){
+      if (parseInt(character.starships[i].max_atmosphering_speed, 10) <= slowestSpeed) {
+        slowestSpeed = character.starships[i].max_atmosphering_speed;
+        slowestName = character.starships[i].name;
+      }
+    }
+    for (let j=0; j<character.vehicles.length; j++){
+      if (parseInt(character.vehicles[j].max_atmosphering_speed, 10) <= slowestSpeed) {
+        slowestSpeed = character.vehicles[j].max_atmosphering_speed;
+        slowestName = character.vehicles[j].name;
+      }
+    }
+    return `${slowestName}`;
+  }
 }
 
 
